@@ -1,0 +1,14 @@
+{
+  "posts": [
+    {
+      "slug": "new-website",
+      "title_en": "New Website Launch",
+      "title_ja": "新しいウェブサイトを公開",
+      "date": "2025-12-26",
+      "tags": ["website","update"],
+      "excerpt_en": "Launched my new personal website with blog functionality.",
+      "excerpt_ja": "ブログ機能付きの新しい個人サイトを公開しました。",
+      "langs": ["en", "ja"]
+    }
+  ]
+}
