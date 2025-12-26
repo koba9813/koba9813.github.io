@@ -39,5 +39,3 @@ python3 scripts/generate_index.py --write
 注意点
 - 自動生成は既存エントリの上書きは行いません。手動で詳細なメタ（タグや抜粋の修正）を `posts/index.json` に記載してください。
 - 追加後はブラウザで `/post.html?slug=<slug>&lang=<lang>` を開いて表示を確認してください。
-
-問題があればお知らせください。
