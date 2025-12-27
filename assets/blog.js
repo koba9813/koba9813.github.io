@@ -95,7 +95,7 @@
           try{
             const r = await fetch(p);
             if(r && r.ok) return r;
-          }catch(e){}
+          }catch(e){/* ignore and try next */}
         }
         return null;
       }

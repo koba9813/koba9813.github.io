@@ -11,7 +11,7 @@
     const firstRect = first.getBoundingClientRect();
     const lastRect = last.getBoundingClientRect();
 
-    
+    // small vertical offset so the line doesn't overlap the dot
     const extraTop = 8;
     const top = Math.max(firstRect.top - containerRect.top - extraTop, 0);
     const bottom = Math.max(lastRect.bottom - containerRect.top, 0);
@@ -49,7 +49,7 @@
         item.className='tl-item memo-item';
         const dateDiv = document.createElement('div');
         dateDiv.className='tl-date';
-        
+        // set date text if available
         dateDiv.textContent = p.date ? formatDate(p.date, lang) : '';
 
         const card = document.createElement('div');

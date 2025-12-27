@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
+"""Generate or update posts/index.json by scanning posts/*.md
 
+Usage:
+  python3 scripts/generate_index.py [--dry-run] [--write] [--posts-dir posts] [--index posts/index.json]
+"""
 import argparse
 import json
 import os
@@ -9,7 +13,7 @@ from datetime import datetime
 
 
 def parse_filename(name):
-    
+    # returns (slug, lang or None)
     m = re.match(r"^(?P<slug>.+?)\.(?P<lang>[a-z]{2})\.md$", name, re.I)
     if m:
         return m.group('slug'), m.group('lang').lower()
@@ -27,13 +31,13 @@ def extract_title_and_excerpt(path: Path):
     title = None
     excerpt = None
     lines = text.splitlines()
-    
+    # find first H1
     for l in lines:
         m = re.match(r"^#\s+(.*)", l)
         if m:
             title = m.group(1).strip()
             break
-    
+    # find first paragraph (non-heading, non-empty)
     parts = re.split(r"\n\s*\n", text)
     for p in parts:
         s = p.strip()
@@ -41,9 +45,9 @@ def extract_title_and_excerpt(path: Path):
             continue
         if re.match(r"^#", s):
             continue
-        
+        # take first paragraph as excerpt (single line)
         excerpt = ' '.join(s.splitlines()).strip()
-        
+        # remove markdown image links and keep plain text for brevity
         excerpt = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", excerpt)
         excerpt = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", excerpt)
         if len(excerpt) > 300:
@@ -76,7 +80,7 @@ def main():
 
     existing_slugs = {p.get('slug'): p for p in existing.get('posts', []) if p.get('slug')}
 
-    
+    # scan md files
     files = [f for f in posts_dir.iterdir() if f.is_file() and f.suffix.lower() == '.md']
     grouped = {}
     for f in files:
@@ -96,12 +100,12 @@ def main():
             'langs': sorted(langs) if langs else [],
             'tags': []
         }
-        
+        # pick a representative file to get date
         rep = next(iter(lang_map.values()))
         mtime = datetime.fromtimestamp(rep.stat().st_mtime).date().isoformat()
         entry['date'] = mtime
 
-        
+        # extract titles and excerpts per language
         for l, path in lang_map.items():
             if l == 'unspecified':
                 title, excerpt = extract_title_and_excerpt(path)
@@ -129,7 +133,7 @@ def main():
         print('-', a['slug'], 'langs=', a.get('langs'))
 
     if args.write:
-        
+        # append to existing posts list and sort by date desc
         existing.setdefault('posts', [])
         existing['posts'].extend(additions)
         try:
