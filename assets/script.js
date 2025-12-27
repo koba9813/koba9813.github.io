@@ -39,6 +39,6 @@
     apply(lang);
   });
 
-  // init
+  
   apply(lang);
 })();

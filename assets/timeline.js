@@ -11,8 +11,8 @@
     const firstRect = first.getBoundingClientRect();
     const lastRect = last.getBoundingClientRect();
 
-
-
+    
+    const extraTop = 8;
     const top = Math.max(firstRect.top - containerRect.top - extraTop, 0);
     const bottom = Math.max(lastRect.bottom - containerRect.top, 0);
     const height = Math.max(bottom - top, 0);
@@ -36,11 +36,21 @@
       let ref = line.nextElementSibling;
 
       const lang = (window.SiteI18n && typeof window.SiteI18n.getLang==='function') ? window.SiteI18n.getLang() : 'en';
+      function formatDate(d, lang){
+        if(!d) return '';
+        const dt = new Date(d);
+        if(isNaN(dt)) return d;
+        if(lang==='ja') return dt.getFullYear()+'年'+(dt.getMonth()+1)+'月'+dt.getDate()+'日';
+        return dt.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+      }
+
       posts.forEach(p=>{
         const item = document.createElement('article');
         item.className='tl-item memo-item';
         const dateDiv = document.createElement('div');
         dateDiv.className='tl-date';
+        
+        dateDiv.textContent = p.date ? formatDate(p.date, lang) : '';
 
         const card = document.createElement('div');
         card.className='tl-card';
