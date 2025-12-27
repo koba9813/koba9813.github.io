@@ -11,6 +11,7 @@
       timeline: 'Timeline',
       nav_home: 'Home',
       nav_memo: 'Memo',
+      nav_github: 'GitHub',
       lang_label: 'Language:',
       menu_toggle: 'Menu',
       timeline_item1_title: 'My first year with gadgets and audio',
@@ -42,6 +43,7 @@
       timeline: 'タイムライン',
       nav_home: 'ホーム',
       nav_memo: 'メモ',
+      nav_github: 'GitHub',
       lang_label: '言語：',
       menu_toggle: 'メニュー',
       timeline_item1_title: 'ガジェットとオーディオ元年',
@@ -90,11 +92,31 @@
     document.querySelectorAll('.floating-menu').forEach(menu=>{
       const toggle = menu.querySelector('.fm-toggle');
       const panel = menu.querySelector('.fm-panel');
-      toggle.addEventListener('click', ()=>{
+
+      const closeMenu = () => {
+        panel.setAttribute('hidden','');
+        toggle.setAttribute('aria-expanded','false');
+        document.removeEventListener('click', handleOutsideClick);
+      };
+
+      const handleOutsideClick = (event) => {
+        if (!panel.contains(event.target) && !toggle.contains(event.target)) {
+          closeMenu();
+        }
+      };
+
+      toggle.addEventListener('click', (event)=>{
+        event.stopPropagation();
         const open = panel.hasAttribute('hidden');
-        if(open){ panel.removeAttribute('hidden'); toggle.setAttribute('aria-expanded','true'); }
-        else { panel.setAttribute('hidden',''); toggle.setAttribute('aria-expanded','false'); }
+        if(open){
+          panel.removeAttribute('hidden');
+          toggle.setAttribute('aria-expanded','true');
+          document.addEventListener('click', handleOutsideClick);
+        } else {
+          closeMenu();
+        }
       });
+
       // language buttons
       menu.querySelectorAll('.fm-lang-btn').forEach(btn=>{
         btn.addEventListener('click', ()=>{
