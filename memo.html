@@ -20,7 +20,7 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1 class="logo"><a href="index.html">Welcome to Haya.win!</a></h1>
+            <h1 class="logo"><a href="index.html">welcome to Haya.win!</a></h1>
             <nav class="nav">
                 <a href="index.html">Top</a>
                 <a href="memo.html" class="active">Memo</a>
@@ -33,7 +33,6 @@
 
         <footer class="footer">
             <p>&copy; 2026 Koba_9813 All Rights Reserved.</p>
-            <p class="footer-updated" id="footer-updated"></p>
         </footer>
     </div>
 
@@ -195,20 +194,6 @@
             `;
         }
 
-        function formatLastUpdatedJst() {
-            const updatedAt = new Date(document.lastModified);
-            if (Number.isNaN(updatedAt.getTime())) {
-                return null;
-            }
-
-            const jstString = updatedAt.toLocaleString('sv-SE', {
-                timeZone: 'Asia/Tokyo',
-                hour12: false
-            });
-
-            return `${jstString} JST`;
-        }
-
         // Load Memo List
         async function loadMemoList() {
             try {
@@ -343,12 +328,6 @@
             loadMemo(memoId);
         } else {
             loadMemoList();
-        }
-
-        const footerUpdated = document.getElementById('footer-updated');
-        const formattedUpdated = formatLastUpdatedJst();
-        if (footerUpdated && formattedUpdated) {
-            footerUpdated.textContent = `Last updated: ${formattedUpdated}`;
         }
     </script>
 </body>

@@ -93,6 +93,8 @@ main {
 .profile-icon {
     display: flex;
     justify-content: center;
+    position: relative;
+    cursor: pointer;
 }
 
 @media (max-width: 500px) {
@@ -106,6 +108,54 @@ main {
     height: 90px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+.photo-note {
+    position: absolute;
+    left: 50%;
+    top: -16px;
+    transform: translate(-50%, -100%);
+    background-color: #1e293b;
+    color: #e2e8f0;
+    font-size: 0.78rem;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+}
+
+.photo-note::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    width: 10px;
+    height: 10px;
+    background-color: #1e293b;
+    border-right: 1px solid #334155;
+    border-bottom: 1px solid #334155;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.photo-note.show {
+    opacity: 1;
+}
+
+.profile-icon:hover img {
+    animation: record-spin 1.8s linear infinite;
+}
+
+@keyframes record-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .bio p {
@@ -185,10 +235,4 @@ main {
     margin-top: 100px;
     color: #64748b;
     font-size: 0.85rem;
-}
-
-.footer-updated {
-    margin-top: 8px;
-    font-size: 0.78rem;
-    color: #94a3b8;
 }

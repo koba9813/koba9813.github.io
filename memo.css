@@ -88,12 +88,6 @@ a {
     font-size: 0.85rem;
 }
 
-.footer-updated {
-    margin-top: 8px;
-    font-size: 0.78rem;
-    color: #94a3b8;
-}
-
 /* Memo styles */
 .memo-list {
     display: flex;
