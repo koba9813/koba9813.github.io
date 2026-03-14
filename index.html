@@ -462,7 +462,7 @@
                 return stage;
             }
 
-            function runOutboundCardTransition(card, href, source) {
+            function runOutboundCardTransition(card, source, onComplete) {
                 if (document.body.classList.contains('is-outbound-animating')) {
                     return;
                 }
@@ -482,15 +482,18 @@
                 }, outboundAnimationTimings.launchDelayMs);
 
                 window.setTimeout(() => {
-                    window.location.href = href;
+                    onComplete();
                 }, totalDurationMs);
             }
 
             contactCards.forEach((card) => {
                 card.addEventListener('click', (event) => {
+                    const isPrimaryActivation =
+                        event.button === undefined || event.button === 0;
+
                     if (
                         event.defaultPrevented ||
-                        event.button !== 0 ||
+                        !isPrimaryActivation ||
                         event.metaKey ||
                         event.ctrlKey ||
                         event.shiftKey ||
@@ -512,7 +515,26 @@
                     }
 
                     event.preventDefault();
-                    runOutboundCardTransition(card, href, source);
+
+                    const target = card.getAttribute('target') || '_self';
+                    const shouldOpenNewTab = target === '_blank';
+                    const newTabFeatures = 'noopener,noreferrer';
+                    const newTabHandle = shouldOpenNewTab
+                        ? window.open('about:blank', '_blank', newTabFeatures)
+                        : null;
+
+                    runOutboundCardTransition(card, source, () => {
+                        if (shouldOpenNewTab) {
+                            if (newTabHandle) {
+                                newTabHandle.location.href = href;
+                            } else {
+                                window.open(href, '_blank', newTabFeatures);
+                            }
+                            return;
+                        }
+
+                        window.location.href = href;
+                    });
                 });
             });
         }
