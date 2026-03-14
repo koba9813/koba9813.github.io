@@ -630,21 +630,6 @@ body.is-outbound-animating .container {
         transition: none;
     }
 
-    .outbound-stage,
-    .outbound-stage.is-expanding,
-    .outbound-stage.is-launching,
-    .outbound-stage-content,
-    .outbound-stage::before,
-    .outbound-stage::after,
-    .outbound-stage.is-launching .outbound-stage-title,
-    .outbound-stage.is-launching .outbound-stage-subtitle,
-    .outbound-stage.is-launching .outbound-stage-icon,
-    .outbound-stage.is-launching .outbound-stage-icon::before,
-    .outbound-stage.is-launching .outbound-stage-icon::after {
-        animation: none;
-        transition: none;
-    }
-
 }
 
 .contact-icon {

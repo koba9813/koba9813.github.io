@@ -426,8 +426,6 @@
                 return;
             }
 
-            const supportsReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
             function createOutboundStage(card, source) {
                 const rect = card.getBoundingClientRect();
                 const sourceLabel = inboundSourceLabels[source] || source;
@@ -510,11 +508,6 @@
                     const href = card.getAttribute('href');
 
                     if (!href) {
-                        return;
-                    }
-
-                    if (supportsReducedMotion) {
-                        window.location.href = href;
                         return;
                     }
 
