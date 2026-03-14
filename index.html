@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | Haya.win</title>
+    <title>Haya.win</title>
     <meta name="description" content="Koba の個人サイト。興味のあることや作ったもの、メモをまとめています。">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Haya.win">
@@ -27,6 +27,10 @@
             <nav class="nav">
                 <a href="index.html">Top</a>
                 <a href="memo.html">Memo</a>
+                <a href="colophon.html">Colophon</a>
+                <a href="now.html">Now</a>
+                <a href="uses.html">Uses</a>
+                <a href="links.html">Links</a>
             </nav>
         </header>
 
@@ -52,7 +56,7 @@
                 <h2 class="section-title">Find Me</h2>
                 <div class="contact-links">
                     <a href="https://github.com/Koba9813" target="_blank" rel="noopener noreferrer"
-                        class="contact-card">
+                        class="contact-card" data-link-id="github">
                         <div class="contact-icon">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                                 <path
@@ -64,7 +68,8 @@
                             <span class="contact-value">GitHub</span>
                         </div>
                     </a>
-                    <a href="https://zenn.dev/koba9813" target="_blank" rel="noopener noreferrer" class="contact-card">
+                    <a href="https://zenn.dev/koba9813" target="_blank" rel="noopener noreferrer" class="contact-card"
+                        data-link-id="zenn">
                         <div class="contact-icon">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -77,8 +82,8 @@
                             <span class="contact-value">Zenn</span>
                         </div>
                     </a>
-                    <a href="https://www.instagram.com/koba9813/" target="_blank" rel="noopener noreferrer"
-                        class="contact-card">
+                    <a href="https://www.instagram.com/koba_9813/" target="_blank" rel="noopener noreferrer"
+                        class="contact-card" data-link-id="instagram">
                         <div class="contact-icon">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -91,7 +96,7 @@
                             <span class="contact-value">Instagram</span>
                         </div>
                     </a>
-                    <a href="mailto:contact@haya.win" class="contact-card">
+                    <a href="mailto:contact@haya.win" class="contact-card" data-link-id="email">
                         <div class="contact-icon">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -116,6 +121,20 @@
     <script>
         const profileIcon = document.querySelector('.profile-icon');
         const photoNote = document.getElementById('photo-note');
+        const contactLinksContainer = document.querySelector('.contact-links');
+        const contactCards = Array.from(document.querySelectorAll('.contact-card'));
+        const animatedOutboundSources = new Set(['github', 'zenn', 'instagram', 'email']);
+        const outboundAnimationTimings = {
+            expandMs: 1350,
+            launchDelayMs: 1500,
+            launchMs: 1380
+        };
+        const inboundSourceLabels = {
+            instagram: 'Instagram',
+            github: 'GitHub',
+            zenn: 'Zenn',
+            email: 'E-Mail'
+        };
         let noteTimer = null;
 
         function showPhotoNote() {
@@ -142,6 +161,377 @@
                 }
             });
         }
+
+        function getInboundSourceFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const sourceKeys = Object.keys(inboundSourceLabels);
+
+            for (const source of sourceKeys) {
+                if (params.has(`from_${source}`)) {
+                    return source;
+                }
+            }
+
+            const fromValue = (params.get('from') || '').toLowerCase();
+
+            if (sourceKeys.includes(fromValue)) {
+                return fromValue;
+            }
+
+            return null;
+        }
+
+        function moveInboundCardToTop(source) {
+            if (!contactLinksContainer || !source) {
+                return;
+            }
+
+            const targetCard = contactLinksContainer.querySelector(`[data-link-id="${source}"]`);
+
+            if (!targetCard || contactLinksContainer.firstElementChild === targetCard) {
+                return;
+            }
+
+            contactLinksContainer.insertBefore(targetCard, contactLinksContainer.firstElementChild);
+            targetCard.classList.add('inbound-priority');
+
+            setTimeout(() => {
+                targetCard.classList.remove('inbound-priority');
+            }, 900);
+        }
+
+        function setupInboundRoutingAndStats() {
+            const source = getInboundSourceFromUrl();
+
+            if (source) {
+                moveInboundCardToTop(source);
+            }
+        }
+
+        function setupDraggableContacts() {
+            if (!contactLinksContainer || contactCards.length === 0) {
+                return;
+            }
+
+            const dragThreshold = 6;
+            let activeDrag = null;
+            let suppressClickUntil = 0;
+
+            function getPoint(event) {
+                return { x: event.clientX, y: event.clientY };
+            }
+
+            function animateLayoutShift(previousRects) {
+                const currentCards = Array.from(contactLinksContainer.querySelectorAll('.contact-card'));
+
+                currentCards.forEach((card) => {
+                    const beforeRect = previousRects.get(card);
+
+                    if (!beforeRect) {
+                        return;
+                    }
+
+                    const afterRect = card.getBoundingClientRect();
+                    const deltaY = beforeRect.top - afterRect.top;
+
+                    if (Math.abs(deltaY) < 1) {
+                        return;
+                    }
+
+                    card.animate(
+                        [
+                            { transform: `translateY(${deltaY}px)` },
+                            { transform: 'translateY(0)' }
+                        ],
+                        {
+                            duration: 220,
+                            easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+                        }
+                    );
+                });
+            }
+
+            function onPointerDown(event) {
+                if (event.pointerType === 'mouse' && event.button !== 0) {
+                    return;
+                }
+
+                const card = event.currentTarget;
+                const point = getPoint(event);
+
+                card.classList.add('pressing');
+
+                activeDrag = {
+                    card,
+                    pointerId: event.pointerId,
+                    startX: point.x,
+                    startY: point.y,
+                    moved: false,
+                    previewOffsetX: 0,
+                    previewOffsetY: 0,
+                    placeholder: null
+                };
+
+                document.addEventListener('pointermove', onPointerMove);
+                document.addEventListener('pointerup', finishDrag);
+                document.addEventListener('pointercancel', finishDrag);
+            }
+
+            function movePlaceholderToPoint(point, placeholder) {
+                const containerRect = contactLinksContainer.getBoundingClientRect();
+                const isInsideContainer =
+                    point.x >= containerRect.left &&
+                    point.x <= containerRect.right &&
+                    point.y >= containerRect.top &&
+                    point.y <= containerRect.bottom;
+
+                if (!isInsideContainer) {
+                    return;
+                }
+
+                const cards = Array.from(contactLinksContainer.querySelectorAll('.contact-card'));
+                const nextCard = cards.find((item) => {
+                    const rect = item.getBoundingClientRect();
+                    return point.y < rect.top + rect.height / 2;
+                });
+
+                const previousRects = new Map(
+                    cards.map((item) => [item, item.getBoundingClientRect()])
+                );
+
+                if (nextCard) {
+                    if (placeholder.nextElementSibling === nextCard) {
+                        return;
+                    }
+
+                    contactLinksContainer.insertBefore(placeholder, nextCard);
+                } else {
+                    if (placeholder === contactLinksContainer.lastElementChild) {
+                        return;
+                    }
+
+                    contactLinksContainer.appendChild(placeholder);
+                }
+
+                animateLayoutShift(previousRects);
+            }
+
+            function beginFloatingDrag(point) {
+                if (!activeDrag) {
+                    return;
+                }
+
+                const { card } = activeDrag;
+                const rect = card.getBoundingClientRect();
+                const placeholder = document.createElement('div');
+
+                placeholder.className = 'contact-card-placeholder';
+                placeholder.style.height = `${rect.height}px`;
+
+                activeDrag.previewOffsetX = point.x - rect.left;
+                activeDrag.previewOffsetY = point.y - rect.top;
+                activeDrag.placeholder = placeholder;
+
+                contactLinksContainer.insertBefore(placeholder, card.nextElementSibling);
+
+                card.classList.remove('pressing');
+                card.classList.add('dragging-follow');
+                card.style.width = `${rect.width}px`;
+                card.style.left = `${rect.left}px`;
+                card.style.top = `${rect.top}px`;
+
+                document.body.appendChild(card);
+            }
+
+            function moveFloatingCard(point) {
+                if (!activeDrag || !activeDrag.moved) {
+                    return;
+                }
+
+                const { card, previewOffsetX, previewOffsetY, placeholder } = activeDrag;
+                card.style.left = `${point.x - previewOffsetX}px`;
+                card.style.top = `${point.y - previewOffsetY}px`;
+
+                if (placeholder) {
+                    movePlaceholderToPoint(point, placeholder);
+                }
+            }
+
+            function onPointerMove(event) {
+                if (!activeDrag || event.pointerId !== activeDrag.pointerId) {
+                    return;
+                }
+
+                const point = getPoint(event);
+                const { card, startX, startY } = activeDrag;
+                const distance = Math.hypot(point.x - startX, point.y - startY);
+
+                if (!activeDrag.moved && distance < dragThreshold) {
+                    return;
+                }
+
+                if (!activeDrag.moved) {
+                    activeDrag.moved = true;
+                    beginFloatingDrag(point);
+                }
+
+                event.preventDefault();
+                moveFloatingCard(point);
+            }
+
+            function finishDrag(event) {
+                if (!activeDrag || event.pointerId !== activeDrag.pointerId) {
+                    return;
+                }
+
+                const { card, moved, placeholder } = activeDrag;
+
+                card.classList.remove('pressing');
+
+                if (moved && placeholder) {
+                    card.classList.remove('dragging-follow');
+                    card.removeAttribute('style');
+                    contactLinksContainer.insertBefore(card, placeholder);
+                    placeholder.remove();
+                }
+
+                if (moved) {
+                    suppressClickUntil = Date.now() + 350;
+                }
+
+                activeDrag = null;
+                document.removeEventListener('pointermove', onPointerMove);
+                document.removeEventListener('pointerup', finishDrag);
+                document.removeEventListener('pointercancel', finishDrag);
+            }
+
+            contactCards.forEach((card) => {
+                card.setAttribute('draggable', 'false');
+                card.addEventListener('pointerdown', onPointerDown);
+            });
+
+            // Prevent accidental navigation right after a drag operation.
+            contactLinksContainer.addEventListener('click', (event) => {
+                if (Date.now() >= suppressClickUntil) {
+                    return;
+                }
+
+                event.preventDefault();
+                event.stopPropagation();
+            }, true);
+        }
+
+        function setupOutboundCardTransition() {
+            if (contactCards.length === 0) {
+                return;
+            }
+
+            const supportsReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            function createOutboundStage(card, source) {
+                const rect = card.getBoundingClientRect();
+                const sourceLabel = inboundSourceLabels[source] || source;
+                const stage = document.createElement('div');
+                const stageContent = document.createElement('div');
+                const stageTitle = document.createElement('p');
+                const stageSubTitle = document.createElement('p');
+                const iconWrapper = card.querySelector('.contact-icon')?.cloneNode(true);
+
+                stage.className = 'outbound-stage';
+                stage.style.setProperty('--start-left', `${rect.left}px`);
+                stage.style.setProperty('--start-top', `${rect.top}px`);
+                stage.style.setProperty('--start-width', `${rect.width}px`);
+                stage.style.setProperty('--start-height', `${rect.height}px`);
+                stage.style.setProperty('--stage-background', getComputedStyle(card).backgroundColor);
+
+                stageContent.className = 'outbound-stage-content';
+
+                if (iconWrapper) {
+                    iconWrapper.classList.add('outbound-stage-icon');
+                    stageContent.appendChild(iconWrapper);
+                }
+
+                stageTitle.className = 'outbound-stage-title';
+                stageTitle.textContent = `Go to ${sourceLabel}!!!`;
+
+                stageSubTitle.className = 'outbound-stage-subtitle';
+                stageSubTitle.textContent = `Redirecting to ${sourceLabel}`;
+
+                stageContent.appendChild(stageTitle);
+                stageContent.appendChild(stageSubTitle);
+                stage.appendChild(stageContent);
+
+                return stage;
+            }
+
+            function runOutboundCardTransition(card, href, source) {
+                if (document.body.classList.contains('is-outbound-animating')) {
+                    return;
+                }
+
+                const stage = createOutboundStage(card, source);
+                const totalDurationMs = outboundAnimationTimings.launchDelayMs + outboundAnimationTimings.launchMs;
+
+                document.body.classList.add('is-outbound-animating');
+                document.body.appendChild(stage);
+
+                requestAnimationFrame(() => {
+                    stage.classList.add('is-expanding');
+                });
+
+                window.setTimeout(() => {
+                    stage.classList.add('is-launching');
+                }, outboundAnimationTimings.launchDelayMs);
+
+                window.setTimeout(() => {
+                    window.location.href = href;
+                }, totalDurationMs);
+            }
+
+            contactCards.forEach((card) => {
+                card.addEventListener('click', (event) => {
+                    if (
+                        event.defaultPrevented ||
+                        event.button !== 0 ||
+                        event.metaKey ||
+                        event.ctrlKey ||
+                        event.shiftKey ||
+                        event.altKey ||
+                        supportsReducedMotion
+                    ) {
+                        return;
+                    }
+
+                    const source = card.dataset.linkId;
+
+                    if (!animatedOutboundSources.has(source)) {
+                        return;
+                    }
+
+                    const href = card.getAttribute('href');
+
+                    if (!href) {
+                        return;
+                    }
+
+                    if (supportsReducedMotion) {
+                        window.location.href = href;
+                        return;
+                    }
+
+                    event.preventDefault();
+                    runOutboundCardTransition(card, href, source);
+                });
+            });
+        }
+
+        function initPage() {
+            setupInboundRoutingAndStats();
+            setupDraggableContacts();
+            setupOutboundCardTransition();
+        }
+
+        initPage();
     </script>
 </body>
 

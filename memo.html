@@ -24,6 +24,10 @@
             <nav class="nav">
                 <a href="index.html">Top</a>
                 <a href="memo.html" class="active">Memo</a>
+                <a href="colophon.html">Colophon</a>
+                <a href="now.html">Now</a>
+                <a href="uses.html">Uses</a>
+                <a href="links.html">Links</a>
             </nav>
         </header>
 
@@ -43,6 +47,37 @@
         // URL Parameters
         const urlParams = new URLSearchParams(window.location.search);
         const memoId = urlParams.get('id');
+
+        const messages = {
+            ja: {
+                loading: 'よみこみ中...',
+                navTop: 'Top',
+                navMemo: 'Memo',
+                tocAria: '目次',
+                tocTitle: '目次',
+                headingAnchorLabel: '{text} のアンカーリンク',
+                datePublished: '公開日',
+                dateUpdated: '更新日',
+                paginationAria: '前後の記事',
+                paginationPrev: '前の記事',
+                paginationNext: '次の記事',
+                memoListTitle: 'MEMO LIST',
+                memoTitleSingle: 'MEMO',
+                noArticles: 'まだ記事がありません...',
+                listFetchFailed: '記事リストの読み込みに失敗しました。<code>list.json</code> が正しく配置されているか確認してください。',
+                backToList: '一覧に戻る',
+                memoNotFoundTitle: '記事が見つかりません',
+                memoNotFoundText: '指定された記事の読み込みに失敗しました。ファイルが存在しないか、移動された可能性があります。',
+                errorDetail: 'エラー詳細',
+                titleNotFound: 'Not Found | MEMO | Haya.win',
+                titleMemoList: 'MEMO LIST | Haya.win'
+            }
+        };
+
+        function t(key, vars = {}) {
+            const template = messages.ja[key] || key;
+            return template.replace(/\{(\w+)\}/g, (_, token) => String(vars[token] || ''));
+        }
 
         // Render Icons
         const clockIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
@@ -96,12 +131,12 @@
                 <div class="memo-date-detail">
                     <div class="memo-date-item">
                         ${clockIcon}
-                        <span class="memo-date-label">公開日</span>
+                        <span class="memo-date-label">${t('datePublished')}</span>
                         <span>${publishedDate}</span>
                     </div>
                     <div class="memo-date-item">
                         ${clockIcon}
-                        <span class="memo-date-label">更新日</span>
+                        <span class="memo-date-label">${t('dateUpdated')}</span>
                         <span>${updatedDate}</span>
                     </div>
                 </div>
@@ -138,14 +173,14 @@
                 const anchor = document.createElement('a');
                 anchor.href = `#${id}`;
                 anchor.className = 'heading-anchor';
-                anchor.setAttribute('aria-label', `${text} のアンカーリンク`);
+                anchor.setAttribute('aria-label', t('headingAnchorLabel', { text }));
                 anchor.textContent = '#';
                 heading.appendChild(anchor);
             });
 
             const tocHtml = tocItems.length > 0 ? `
-                <nav class="memo-toc" aria-label="目次">
-                    <div class="memo-toc-title">目次</div>
+                <nav class="memo-toc" aria-label="${t('tocAria')}">
+                    <div class="memo-toc-title">${t('tocTitle')}</div>
                     <ul class="memo-toc-list">
                         ${tocItems.map((item) => `
                             <li class="memo-toc-item" data-level="${item.level}">
@@ -177,16 +212,16 @@
             }
 
             return `
-                <nav class="memo-pagination" aria-label="前後の記事">
+                <nav class="memo-pagination" aria-label="${t('paginationAria')}">
                     ${olderMemo ? `
                         <a href="memo.html?id=${olderMemo.id}" class="memo-pagination-link prev">
-                            <span class="memo-pagination-label">前の記事</span>
+                            <span class="memo-pagination-label">${t('paginationPrev')}</span>
                             <span class="memo-pagination-title">${escapeHtml(olderMemo.title)}</span>
                         </a>
                     ` : '<div></div>'}
                     ${newerMemo ? `
                         <a href="memo.html?id=${newerMemo.id}" class="memo-pagination-link next">
-                            <span class="memo-pagination-label">次の記事</span>
+                            <span class="memo-pagination-label">${t('paginationNext')}</span>
                             <span class="memo-pagination-title">${escapeHtml(newerMemo.title)}</span>
                         </a>
                     ` : '<div></div>'}
@@ -206,11 +241,11 @@
                 const memos = await response.json();
 
                 if (memos.length === 0) {
-                    document.title = "MEMO LIST | Haya.win";
+                    document.title = t('titleMemoList');
                     mainContent.innerHTML = `
                         <section class="section">
-                            <h2 class="section-title">MEMO</h2>
-                            <p style="color: #94a3b8;">まだ記事がありません...</p>
+                            <h2 class="section-title">${t('memoTitleSingle')}</h2>
+                            <p style="color: #94a3b8;">${t('noArticles')}</p>
                         </section>
                     `;
                     return;
@@ -220,7 +255,7 @@
 
                 let html = `
                     <section class="section">
-                        <h2 class="section-title">MEMO LIST</h2>
+                        <h2 class="section-title">${t('memoListTitle')}</h2>
                         <div class="memo-list">
                 `;
 
@@ -242,14 +277,14 @@
                 `;
 
                 mainContent.innerHTML = html;
-                document.title = "MEMO LIST | Haya.win";
+                document.title = t('titleMemoList');
 
             } catch (error) {
                 console.error('Error loading memo list:', error);
                 mainContent.innerHTML = `
                     <section class="section">
-                        <h2 class="section-title">MEMO LIST</h2>
-                        <div class="error-message">記事リストの読み込みに失敗しました。<code>list.json</code> が正しく配置されているか確認してください。</div>
+                        <h2 class="section-title">${t('memoListTitle')}</h2>
+                        <div class="error-message">${t('listFetchFailed')}</div>
                     </section>
                 `;
             }
@@ -294,7 +329,7 @@
                 mainContent.innerHTML = `
                     <section class="section">
                         <a href="memo.html" class="back-link">
-                            ${backIcon} 一覧に戻る
+                            ${backIcon} ${t('backToList')}
                         </a>
                         <article class="markdown-body">
                             <h1 class="memo-detail-title">${title}</h1>
@@ -310,25 +345,28 @@
                 mainContent.innerHTML = `
                     <section class="section">
                         <a href="memo.html" class="back-link">
-                            ${backIcon} 一覧に戻る
+                            ${backIcon} ${t('backToList')}
                         </a>
                         <div class="error-message">
-                            <h3>記事が見つかりません</h3>
-                            <p>指定された記事の読み込みに失敗しました。ファイルが存在しないか、移動された可能性があります。</p>
-                            <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">エラー詳細: ${error.message}</p>
+                            <h3>${t('memoNotFoundTitle')}</h3>
+                            <p>${t('memoNotFoundText')}</p>
+                            <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">${t('errorDetail')}: ${error.message}</p>
                         </div>
                     </section>
                 `;
-                document.title = "Not Found | MEMO | Haya.win";
+                document.title = t('titleNotFound');
             }
         }
 
-        // Initialize based on URL
-        if (memoId) {
-            loadMemo(memoId);
-        } else {
-            loadMemoList();
+        function initMemoPage() {
+            if (memoId) {
+                loadMemo(memoId);
+            } else {
+                loadMemoList();
+            }
         }
+
+        initMemoPage();
     </script>
 </body>
 

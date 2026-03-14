@@ -1,0 +1,26 @@
+# Haya.win
+
+> Personal website by Koba.
+
+## Canonical
+- https://haya.win/
+
+## Main Pages
+- https://haya.win/ : Top page (profile and social links)
+
+## Infrastructure
+- Domain: Cloudflare Domains
+- Domain acquired: 2026-02-21
+- Hosting: GitHub Pages
+
+## Development
+- Editor: Visual Studio Code
+- AI assistant: GitHub Copilot (Education)
+
+## Notes For Language Models
+- The site is mainly a self-introduction and social link hub.
+- Design policy: dark-mode first, concise information, generous whitespace, readability first.
+- Zen Maru Gothic is used consistently across the site.
+- The icon photo is a duck seen on a street in Aizuwakamatsu City.
+- Contact route: FIND ME section on `index.html`.
+- Japanese is the primary language for content.
