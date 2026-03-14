@@ -516,23 +516,7 @@
 
                     event.preventDefault();
 
-                    const target = card.getAttribute('target') || '_self';
-                    const shouldOpenNewTab = target === '_blank';
-                    const newTabFeatures = 'noopener,noreferrer';
-                    const newTabHandle = shouldOpenNewTab
-                        ? window.open('about:blank', '_blank', newTabFeatures)
-                        : null;
-
                     runOutboundCardTransition(card, source, () => {
-                        if (shouldOpenNewTab) {
-                            if (newTabHandle) {
-                                newTabHandle.location.href = href;
-                            } else {
-                                window.open(href, '_blank', newTabFeatures);
-                            }
-                            return;
-                        }
-
                         window.location.href = href;
                     });
                 });
