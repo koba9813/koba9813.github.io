@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /memo.html
 Disallow: /memos/
+Disallow: /now.html
+Disallow: /nows/
 
 # Optional (add this when sitemap.xml is available)
 # Sitemap: https://haya.win/sitemap.xml

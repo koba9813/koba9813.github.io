@@ -19,9 +19,9 @@
             <h1 class="logo"><a href="index.html">welcome to Haya.win!</a></h1>
             <nav class="nav">
                 <a href="index.html">Top</a>
+                <a href="now.html">Now</a>
                 <a href="memo.html">Memo</a>
                 <a href="colophon.html">Colophon</a>
-                <a href="now.html">Now</a>
                 <a href="links.html" class="active">Links</a>
             </nav>
         </header>
@@ -39,6 +39,8 @@
                     <li><a href="https://dailyportalz.jp/" target="_blank" rel="noopener noreferrer">デイリーポータルZ</a></li>
                     <li><a href="https://www.gizmodo.jp" target="_blank" rel="noopener noreferrer">GIZMODO</a></li>
                     <li><a href="https://ja.floorp.app/ja-JP" target="_blank" rel="noopener noreferrer">Floorp</a></li>
+                    <li><a href="https://projecthm.movie/" target="_blank" rel="noopener noreferrer">映画「プロジェクト・ヘイル・メアリー」公式サイト</a></li>
+                    <li><a href="https://pole2hall.jp/" target="_blank" rel="noopener noreferrer">ポレポレ KASAMA CINEMAS</a></li>
                 </ul>
             </section>
 
@@ -86,29 +88,11 @@
         </main>
 
         <footer class="footer">
-            <p class="access-counter">あなたは <span id="gc-count">–</span> 人目の訪問者です。</p>
             <p>&copy; 2026 Koba_9813 All Rights Reserved.</p>
         </footer>
     </div>
 
-    <!-- ▼ GoatCounter アクセスカウンター ▼ -->
-    <!-- https://www.goatcounter.com/ でアカウント登録後、koba9813 をサイトコードに変更してください -->
-    <script data-goatcounter="https://koba9813.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-    <script>
-        (function () {
-            var p = location.pathname.replace(/\/index\.html$/, '/');
-            fetch('https://koba9813.goatcounter.com/counter/' + encodeURIComponent(p) + '.json')
-                .then(function (r) { return r.json(); })
-                .then(function (d) {
-                    var el = document.getElementById('gc-count');
-                    if (el) el.textContent = d.count;
-                })
-                .catch(function () {
-                    var el = document.getElementById('gc-count');
-                    if (el) el.textContent = '-';
-                });
-        }());
-    </script>
+    <script src="transitions.js" defer></script>
 </body>
 
 </html>
