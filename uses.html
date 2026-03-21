@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uses | Haya.win</title>
+    <meta name="description" content="普段使っているパソコン、スマホ、オーディオ機器、カメラなどの使用機材をまとめています。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="logo"><a href="index.html">welcome to Haya.win!</a></h1>
+            <nav class="nav">
+                <a href="index.html">Top</a>
+                <a href="memo.html">Memo</a>
+                <a href="colophon.html">Colophon</a>
+                <a href="now.html">Now</a>
+                <a href="uses.html" class="active">Uses</a>
+                <a href="links.html">Links</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="section">
+                <h2 class="section-title">Uses</h2>
+                <p class="colophon-intro">普段使っているものをまとめています。</p>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">パソコン</h2>
+                <p class="colophon-intro">CF-N10</p>
+                <p class="colophon-intro">2011年秋製のレッツノート。メモリ増設で8GB、SSD換装で特に不便はない。やっぱり嘘。最近キーボードの調子が悪い。しかしそれぐらいしかない。レッツノート丈夫すぎる。まあ、その代わりゴツいんだけれども...</p>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">スマホ</h2>
+                <p class="colophon-intro">moto g66j 5G</p>
+                <p class="colophon-intro">つい数週間前に OPPO Reno3 A から買い替えたところ。久しぶりの Motorola でテンション上がっていた。やっぱり Motorola は便利。一つデメリットがあるとしたら、アップデートが遅いことぐらい。早く Android 16 を使わせろ。</p>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">ヘッドホン</h2>
+                <p class="colophon-intro">Soundcore Space One Pro</p>
+                <p class="colophon-intro">セールで15000円ぐらいに値下がってたときに買ったもの。不便はない。全てにおいて完璧。流石フラグシップモデル。</p>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">ワイヤレスイヤホン</h2>
+                <p class="colophon-intro">Soundcore Liberty 4</p>
+                <p class="colophon-intro">これもセールで1万円に値下がってたときに買ったもの。この2か月後ぐらいに後継機の Liberty 5 が同じぐらいの値段に値下がっててげんなりした記憶。</p>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">ワイヤードイアホン</h2>
+                <p class="colophon-intro">Audio Technica ATH-CK350X</p>
+                <p class="colophon-intro">PayPay の期間限定ポイントを利用して実質タダで手に入れたもの。低音が弱めな音なのが好みではないが、普通に良い音を出してくれるので愛用。イアホンジャックに刺すだけで使えるのが便利すぎて、主軸をワイヤレスからワイヤードに移そうか検討中。</p>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">デジタルカメラ</h2>
+                <p class="colophon-intro">RICOH WG-30W</p>
+                <p class="colophon-intro">10年以上前に買ってもらったもの。画質も意外と綺麗に撮れるので文句なし。</p>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p class="access-counter">あなたは <span id="gc-count">–</span> 人目の訪問者です。</p>
+            <p>&copy; 2026 Koba_9813 All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- ▼ GoatCounter アクセスカウンター ▼ -->
+    <!-- https://www.goatcounter.com/ でアカウント登録後、koba9813 をサイトコードに変更してください -->
+    <script data-goatcounter="https://koba9813.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    <script>
+        (function () {
+            var p = location.pathname.replace(/\/index\.html$/, '/');
+            fetch('https://koba9813.goatcounter.com/counter/' + encodeURIComponent(p) + '.json')
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                    var el = document.getElementById('gc-count');
+                    if (el) el.textContent = d.count;
+                })
+                .catch(function () {
+                    var el = document.getElementById('gc-count');
+                    if (el) el.textContent = '-';
+                });
+        }());
+    </script>
+</body>
+
+</html>
