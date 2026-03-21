@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEMO | Haya.win</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="memo.css">
+
+    <!-- marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="logo"><a href="index.html">welcome to Haya.win!</a></h1>
+            <nav class="nav">
+                <a href="index.html">Top</a>
+                <a href="memo.html" class="active">Memo</a>
+                <a href="colophon.html">Colophon</a>
+                <a href="now.html">Now</a>
+                <a href="links.html">Links</a>
+            </nav>
+        </header>
+
+        <main id="main-content">
+            <div class="loading">よみこみ中...</div>
+        </main>
+
+        <footer class="footer">
+            <p class="access-counter">あなたは <span id="gc-count">–</span> 人目の訪問者です。</p>
+            <p>&copy; 2026 Koba_9813 All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // DOM Elements
+        const mainContent = document.getElementById('main-content');
+
+        // URL Parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const memoId = urlParams.get('id');
+
+        const messages = {
+            ja: {
+                loading: 'よみこみ中...',
+                navTop: 'Top',
+                navMemo: 'Memo',
+                tocAria: '目次',
+                tocTitle: '目次',
+                headingAnchorLabel: '{text} のアンカーリンク',
+                datePublished: '公開日',
+                dateUpdated: '更新日',
+                paginationAria: '前後の記事',
+                paginationPrev: '前の記事',
+                paginationNext: '次の記事',
+                memoListTitle: 'MEMO LIST',
+                memoTitleSingle: 'MEMO',
+                noArticles: 'まだ記事がありません...',
+                listFetchFailed: '記事リストの読み込みに失敗しました。<code>list.json</code> が正しく配置されているか確認してください。',
+                backToList: '一覧に戻る',
+                memoNotFoundTitle: '記事が見つかりません',
+                memoNotFoundText: '指定された記事の読み込みに失敗しました。ファイルが存在しないか、移動された可能性があります。',
+                errorDetail: 'エラー詳細',
+                titleNotFound: 'Not Found | MEMO | Haya.win',
+                titleMemoList: 'MEMO LIST | Haya.win'
+            }
+        };
+
+        function t(key, vars = {}) {
+            const template = messages.ja[key] || key;
+            return template.replace(/\{(\w+)\}/g, (_, token) => String(vars[token] || ''));
+        }
+
+        // Render Icons
+        const clockIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
+        const backIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>`;
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function slugify(text, usedSlugs) {
+            const baseSlug = text
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9\u3040-\u30ff\u3400-\u9fbf\u4e00-\u9fff\s-]/g, '')
+                .replace(/\s+/g, '-') || 'section';
+
+            let slug = baseSlug;
+            let count = 2;
+
+            while (usedSlugs.has(slug)) {
+                slug = `${baseSlug}-${count}`;
+                count += 1;
+            }
+
+            usedSlugs.add(slug);
+            return slug;
+        }
+
+        function sortMemos(memos) {
+            return [...memos].sort((a, b) => {
+                const dateA = new Date(a.updated || a.date);
+                const dateB = new Date(b.updated || b.date);
+                return dateB - dateA;
+            });
+        }
+
+        function renderDateDetail(memoMeta) {
+            if (!memoMeta) {
+                return '';
+            }
+
+            const publishedDate = memoMeta.date || '';
+            const updatedDate = memoMeta.updated || memoMeta.date || '';
+
+            return `
+                <div class="memo-date-detail">
+                    <div class="memo-date-item">
+                        ${clockIcon}
+                        <span class="memo-date-label">${t('datePublished')}</span>
+                        <span>${publishedDate}</span>
+                    </div>
+                    <div class="memo-date-item">
+                        ${clockIcon}
+                        <span class="memo-date-label">${t('dateUpdated')}</span>
+                        <span>${updatedDate}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function enhanceMarkdown(markdown) {
+            const rawHtml = marked.parse(markdown);
+            const container = document.createElement('div');
+            const usedSlugs = new Set();
+            const tocItems = [];
+
+            container.innerHTML = rawHtml;
+
+            container.querySelectorAll('h2, h3, h4').forEach((heading) => {
+                const text = heading.textContent.trim();
+
+                if (!text) {
+                    return;
+                }
+
+                const id = slugify(text, usedSlugs);
+                const level = Number(heading.tagName.slice(1));
+                heading.id = id;
+
+                if (level <= 4) {
+                    tocItems.push({
+                        id,
+                        text,
+                        level
+                    });
+                }
+
+                const anchor = document.createElement('a');
+                anchor.href = `#${id}`;
+                anchor.className = 'heading-anchor';
+                anchor.setAttribute('aria-label', t('headingAnchorLabel', { text }));
+                anchor.textContent = '#';
+                heading.appendChild(anchor);
+            });
+
+            const tocHtml = tocItems.length > 0 ? `
+                <nav class="memo-toc" aria-label="${t('tocAria')}">
+                    <div class="memo-toc-title">${t('tocTitle')}</div>
+                    <ul class="memo-toc-list">
+                        ${tocItems.map((item) => `
+                            <li class="memo-toc-item" data-level="${item.level}">
+                                <a href="#${item.id}" class="memo-toc-link">${escapeHtml(item.text)}</a>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </nav>
+            ` : '';
+
+            return {
+                contentHtml: container.innerHTML,
+                tocHtml
+            };
+        }
+
+        function renderPagination(sortedMemos, currentId) {
+            const currentIndex = sortedMemos.findIndex((memo) => memo.id === currentId);
+
+            if (currentIndex === -1) {
+                return '';
+            }
+
+            const newerMemo = sortedMemos[currentIndex - 1] || null;
+            const olderMemo = sortedMemos[currentIndex + 1] || null;
+
+            if (!newerMemo && !olderMemo) {
+                return '';
+            }
+
+            return `
+                <nav class="memo-pagination" aria-label="${t('paginationAria')}">
+                    ${olderMemo ? `
+                        <a href="memo.html?id=${olderMemo.id}" class="memo-pagination-link prev">
+                            <span class="memo-pagination-label">${t('paginationPrev')}</span>
+                            <span class="memo-pagination-title">${escapeHtml(olderMemo.title)}</span>
+                        </a>
+                    ` : '<div></div>'}
+                    ${newerMemo ? `
+                        <a href="memo.html?id=${newerMemo.id}" class="memo-pagination-link next">
+                            <span class="memo-pagination-label">${t('paginationNext')}</span>
+                            <span class="memo-pagination-title">${escapeHtml(newerMemo.title)}</span>
+                        </a>
+                    ` : '<div></div>'}
+                </nav>
+            `;
+        }
+
+        // Load Memo List
+        async function loadMemoList() {
+            try {
+                const response = await fetch('memos/list.json');
+
+                if (!response.ok) {
+                    throw new Error('リストの取得に失敗しました');
+                }
+
+                const memos = await response.json();
+
+                if (memos.length === 0) {
+                    document.title = t('titleMemoList');
+                    mainContent.innerHTML = `
+                        <section class="section">
+                            <h2 class="section-title">${t('memoTitleSingle')}</h2>
+                            <p style="color: #94a3b8;">${t('noArticles')}</p>
+                        </section>
+                    `;
+                    return;
+                }
+
+                const sortedMemos = sortMemos(memos);
+
+                let html = `
+                    <section class="section">
+                        <h2 class="section-title">${t('memoListTitle')}</h2>
+                        <div class="memo-list">
+                `;
+
+                sortedMemos.forEach(memo => {
+                    html += `
+                        <a href="memo.html?id=${memo.id}" class="memo-card">
+                            <h3 class="memo-title">${memo.title}</h3>
+                            <div class="memo-meta">
+                                ${clockIcon}
+                                <span class="memo-date">${memo.updated || memo.date}</span>
+                            </div>
+                        </a>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </section>
+                `;
+
+                mainContent.innerHTML = html;
+                document.title = t('titleMemoList');
+
+            } catch (error) {
+                console.error('Error loading memo list:', error);
+                mainContent.innerHTML = `
+                    <section class="section">
+                        <h2 class="section-title">${t('memoListTitle')}</h2>
+                        <div class="error-message">${t('listFetchFailed')}</div>
+                    </section>
+                `;
+            }
+        }
+
+        // Load Single Memo
+        async function loadMemo(id) {
+            try {
+                // Fetch list to get metadata (title, date)
+                let memoMeta = null;
+                let sortedMemos = [];
+                try {
+                    const responseList = await fetch('memos/list.json');
+                    if (responseList.ok) {
+                        const memos = await responseList.json();
+                        sortedMemos = sortMemos(memos);
+                        memoMeta = memos.find(m => m.id === id);
+                    }
+                } catch (e) {
+                    console.warn("Could not load list.json for metadata");
+                }
+
+                // Fetch Markdown content
+                const response = await fetch(`memos/${id}.md`);
+
+                if (!response.ok) {
+                    throw new Error('Markdownファイルの取得に失敗しました');
+                }
+
+                const markdown = await response.text();
+
+                const { contentHtml, tocHtml } = enhanceMarkdown(markdown);
+
+                // Content Rendering
+                const title = memoMeta ? memoMeta.title : id;
+                const dateStr = renderDateDetail(memoMeta);
+                const paginationHtml = renderPagination(sortedMemos, id);
+
+                // Setting document title
+                document.title = `${title} | MEMO | Haya.win`;
+
+                mainContent.innerHTML = `
+                    <section class="section">
+                        <a href="memo.html" class="back-link">
+                            ${backIcon} ${t('backToList')}
+                        </a>
+                        <article class="markdown-body">
+                            <h1 class="memo-detail-title">${title}</h1>
+                            ${dateStr}
+                            ${tocHtml}
+                            <div class="memo-content">${contentHtml}</div>
+                            ${paginationHtml}
+                        </article>
+                    </section>
+                `;
+            } catch (error) {
+                console.error('Error loading memo:', error);
+                mainContent.innerHTML = `
+                    <section class="section">
+                        <a href="memo.html" class="back-link">
+                            ${backIcon} ${t('backToList')}
+                        </a>
+                        <div class="error-message">
+                            <h3>${t('memoNotFoundTitle')}</h3>
+                            <p>${t('memoNotFoundText')}</p>
+                            <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">${t('errorDetail')}: ${error.message}</p>
+                        </div>
+                    </section>
+                `;
+                document.title = t('titleNotFound');
+            }
+        }
+
+        function initMemoPage() {
+            if (memoId) {
+                loadMemo(memoId);
+            } else {
+                loadMemoList();
+            }
+        }
+
+        initMemoPage();
+    </script>
+
+    <!-- ▼ GoatCounter アクセスカウンター ▼ -->
+    <!-- https://www.goatcounter.com/ でアカウント登録後、koba9813 をサイトコードに変更してください -->
+    <script data-goatcounter="https://koba9813.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    <script>
+        (function () {
+            var p = location.pathname.replace(/\/index\.html$/, '/');
+            fetch('https://koba9813.goatcounter.com/counter/' + encodeURIComponent(p) + '.json')
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                    var el = document.getElementById('gc-count');
+                    if (el) el.textContent = d.count;
+                })
+                .catch(function () {
+                    var el = document.getElementById('gc-count');
+                    if (el) el.textContent = '-';
+                });
+        }());
+    </script>
+</body>
+
+</html>

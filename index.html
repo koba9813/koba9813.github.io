@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haya.win</title>
+    <meta name="description" content="Koba の個人サイト。興味のあることや作ったもの、メモをまとめています。">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Haya.win">
+    <meta property="og:description" content="Koba の個人サイト。興味のあることや作ったもの、メモをまとめています。">
+    <meta property="og:url" content="https://haya.win/">
+    <meta property="og:image" content="https://haya.win/icon.jpg">
+    <link rel="icon" href="icon.jpg" type="image/jpeg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="logo"><a href="index.html">welcome to Haya.win!</a></h1>
+            <nav class="nav">
+                <a href="index.html">Top</a>
+                <a href="memo.html">Memo</a>
+                <a href="colophon.html">Colophon</a>
+                <a href="now.html">Now</a>
+                <a href="links.html">Links</a>
+            </nav>
+        </header>
+
+        <main>
+            <!-- About Section -->
+            <section class="section">
+                <h2 class="section-title">Who Am I</h2>
+                <div class="about-content">
+                    <div class="profile-icon" role="button" tabindex="0" aria-label="撮影地メッセージを表示">
+                        <img src="icon.jpg" alt="Koba">
+                        <span class="photo-note" id="photo-note">Shot in: Aizuwakamatsu City</span>
+                    </div>
+                    <div class="bio">
+                        <p class="bio-meta">Japanese / High School Student</p>
+                        <p>こんにちは、Kobaです。</p>
+                        <p>音楽を聴いたり、旅行に行ったりするのが好きです。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Find Me</h2>
+                <div class="contact-links">
+                    <a href="https://github.com/Koba9813" class="contact-card" data-link-id="github">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            </svg>
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-label">koba9813</span>
+                            <span class="contact-value">GitHub</span>
+                        </div>
+                    </a>
+                    <a href="https://zenn.dev/koba9813" class="contact-card" data-link-id="zenn">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M.264 23.771h4.984c.264 0 .498-.147.645-.352L19.614.874c.176-.293-.029-.645-.381-.645h-4.72c-.235 0-.44.117-.557.323L.03 23.361c-.088.176.029.41.234.41zM17.445 23.419l6.479-10.408c.205-.323-.029-.733-.41-.733h-4.691c-.176 0-.352.088-.44.235l-6.655 10.643c-.176.264.029.616.352.616h4.779c.234-.001.468-.118.586-.353z" />
+                            </svg>
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-label">koba9813</span>
+                            <span class="contact-value">Zenn</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/koba_9813/" class="contact-card" data-link-id="instagram">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-label">koba9813</span>
+                            <span class="contact-value">Instagram</span>
+                        </div>
+                    </a>
+                    <a href="mailto:contact@haya.win" class="contact-card" data-link-id="email">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2" />
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                            </svg>
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-label">contact@haya.win</span>
+                            <span class="contact-value">Email</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p class="access-counter">あなたは <span id="gc-count">–</span> 人目の訪問者です。</p>
+            <p>&copy; 2026 Koba_9813 All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const profileIcon = document.querySelector('.profile-icon');
+        const photoNote = document.getElementById('photo-note');
+        const contactLinksContainer = document.querySelector('.contact-links');
+        const contactCards = Array.from(document.querySelectorAll('.contact-card'));
+        const animatedOutboundSources = new Set(['github', 'zenn', 'instagram', 'email']);
+        const outboundAnimationTimings = {
+            expandMs: 1350,
+            launchDelayMs: 1500,
+            launchMs: 1380
+        };
+        const inboundSourceLabels = {
+            instagram: 'Instagram',
+            github: 'GitHub',
+            zenn: 'Zenn',
+            email: 'E-Mail'
+        };
+        let noteTimer = null;
+
+        function showPhotoNote() {
+            if (!photoNote) {
+                return;
+            }
+
+            photoNote.classList.add('show');
+            if (noteTimer) {
+                clearTimeout(noteTimer);
+            }
+
+            noteTimer = setTimeout(() => {
+                photoNote.classList.remove('show');
+            }, 2200);
+        }
+
+        if (profileIcon && photoNote) {
+            profileIcon.addEventListener('click', showPhotoNote);
+            profileIcon.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    showPhotoNote();
+                }
+            });
+        }
+
+        function getInboundSourceFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const sourceKeys = Object.keys(inboundSourceLabels);
+
+            for (const source of sourceKeys) {
+                if (params.has(`from_${source}`)) {
+                    return source;
+                }
+            }
+
+            const fromValue = (params.get('from') || '').toLowerCase();
+
+            if (sourceKeys.includes(fromValue)) {
+                return fromValue;
+            }
+
+            return null;
+        }
+
+        function moveInboundCardToTop(source) {
+            if (!contactLinksContainer || !source) {
+                return;
+            }
+
+            const targetCard = contactLinksContainer.querySelector(`[data-link-id="${source}"]`);
+
+            if (!targetCard || contactLinksContainer.firstElementChild === targetCard) {
+                return;
+            }
+
+            contactLinksContainer.insertBefore(targetCard, contactLinksContainer.firstElementChild);
+            targetCard.classList.add('inbound-priority');
+
+            setTimeout(() => {
+                targetCard.classList.remove('inbound-priority');
+            }, 900);
+        }
+
+        function setupInboundRoutingAndStats() {
+            const source = getInboundSourceFromUrl();
+
+            if (source) {
+                moveInboundCardToTop(source);
+            }
+        }
+
+        function setupDraggableContacts() {
+            if (!contactLinksContainer || contactCards.length === 0) {
+                return;
+            }
+
+            const dragThreshold = 6;
+            let activeDrag = null;
+            let suppressClickUntil = 0;
+
+            function getPoint(event) {
+                return { x: event.clientX, y: event.clientY };
+            }
+
+            function animateLayoutShift(previousRects) {
+                const currentCards = Array.from(contactLinksContainer.querySelectorAll('.contact-card'));
+
+                currentCards.forEach((card) => {
+                    const beforeRect = previousRects.get(card);
+
+                    if (!beforeRect) {
+                        return;
+                    }
+
+                    const afterRect = card.getBoundingClientRect();
+                    const deltaY = beforeRect.top - afterRect.top;
+
+                    if (Math.abs(deltaY) < 1) {
+                        return;
+                    }
+
+                    card.animate(
+                        [
+                            { transform: `translateY(${deltaY}px)` },
+                            { transform: 'translateY(0)' }
+                        ],
+                        {
+                            duration: 220,
+                            easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+                        }
+                    );
+                });
+            }
+
+            function onPointerDown(event) {
+                if (event.pointerType === 'mouse' && event.button !== 0) {
+                    return;
+                }
+
+                const card = event.currentTarget;
+                const point = getPoint(event);
+
+                card.classList.add('pressing');
+
+                activeDrag = {
+                    card,
+                    pointerId: event.pointerId,
+                    startX: point.x,
+                    startY: point.y,
+                    moved: false,
+                    previewOffsetX: 0,
+                    previewOffsetY: 0,
+                    placeholder: null
+                };
+
+                document.addEventListener('pointermove', onPointerMove);
+                document.addEventListener('pointerup', finishDrag);
+                document.addEventListener('pointercancel', finishDrag);
+            }
+
+            function movePlaceholderToPoint(point, placeholder) {
+                const containerRect = contactLinksContainer.getBoundingClientRect();
+                const isInsideContainer =
+                    point.x >= containerRect.left &&
+                    point.x <= containerRect.right &&
+                    point.y >= containerRect.top &&
+                    point.y <= containerRect.bottom;
+
+                if (!isInsideContainer) {
+                    return;
+                }
+
+                const cards = Array.from(contactLinksContainer.querySelectorAll('.contact-card'));
+                const nextCard = cards.find((item) => {
+                    const rect = item.getBoundingClientRect();
+                    return point.y < rect.top + rect.height / 2;
+                });
+
+                const previousRects = new Map(
+                    cards.map((item) => [item, item.getBoundingClientRect()])
+                );
+
+                if (nextCard) {
+                    if (placeholder.nextElementSibling === nextCard) {
+                        return;
+                    }
+
+                    contactLinksContainer.insertBefore(placeholder, nextCard);
+                } else {
+                    if (placeholder === contactLinksContainer.lastElementChild) {
+                        return;
+                    }
+
+                    contactLinksContainer.appendChild(placeholder);
+                }
+
+                animateLayoutShift(previousRects);
+            }
+
+            function beginFloatingDrag(point) {
+                if (!activeDrag) {
+                    return;
+                }
+
+                const { card } = activeDrag;
+                const rect = card.getBoundingClientRect();
+                const placeholder = document.createElement('div');
+
+                placeholder.className = 'contact-card-placeholder';
+                placeholder.style.height = `${rect.height}px`;
+
+                activeDrag.previewOffsetX = point.x - rect.left;
+                activeDrag.previewOffsetY = point.y - rect.top;
+                activeDrag.placeholder = placeholder;
+
+                contactLinksContainer.insertBefore(placeholder, card.nextElementSibling);
+
+                card.classList.remove('pressing');
+                card.classList.add('dragging-follow');
+                card.style.width = `${rect.width}px`;
+                card.style.left = `${rect.left}px`;
+                card.style.top = `${rect.top}px`;
+
+                document.body.appendChild(card);
+            }
+
+            function moveFloatingCard(point) {
+                if (!activeDrag || !activeDrag.moved) {
+                    return;
+                }
+
+                const { card, previewOffsetX, previewOffsetY, placeholder } = activeDrag;
+                card.style.left = `${point.x - previewOffsetX}px`;
+                card.style.top = `${point.y - previewOffsetY}px`;
+
+                if (placeholder) {
+                    movePlaceholderToPoint(point, placeholder);
+                }
+            }
+
+            function onPointerMove(event) {
+                if (!activeDrag || event.pointerId !== activeDrag.pointerId) {
+                    return;
+                }
+
+                const point = getPoint(event);
+                const { card, startX, startY } = activeDrag;
+                const distance = Math.hypot(point.x - startX, point.y - startY);
+
+                if (!activeDrag.moved && distance < dragThreshold) {
+                    return;
+                }
+
+                if (!activeDrag.moved) {
+                    activeDrag.moved = true;
+                    beginFloatingDrag(point);
+                }
+
+                event.preventDefault();
+                moveFloatingCard(point);
+            }
+
+            function finishDrag(event) {
+                if (!activeDrag || event.pointerId !== activeDrag.pointerId) {
+                    return;
+                }
+
+                const { card, moved, placeholder } = activeDrag;
+
+                card.classList.remove('pressing');
+
+                if (moved && placeholder) {
+                    card.classList.remove('dragging-follow');
+                    card.removeAttribute('style');
+                    contactLinksContainer.insertBefore(card, placeholder);
+                    placeholder.remove();
+                }
+
+                if (moved) {
+                    suppressClickUntil = Date.now() + 350;
+                }
+
+                activeDrag = null;
+                document.removeEventListener('pointermove', onPointerMove);
+                document.removeEventListener('pointerup', finishDrag);
+                document.removeEventListener('pointercancel', finishDrag);
+            }
+
+            contactCards.forEach((card) => {
+                card.setAttribute('draggable', 'false');
+                card.addEventListener('pointerdown', onPointerDown);
+            });
+
+            // Prevent accidental navigation right after a drag operation.
+            contactLinksContainer.addEventListener('click', (event) => {
+                if (Date.now() >= suppressClickUntil) {
+                    return;
+                }
+
+                event.preventDefault();
+                event.stopPropagation();
+            }, true);
+        }
+
+        function setupOutboundCardTransition() {
+            if (contactCards.length === 0) {
+                return;
+            }
+
+            function createOutboundStage(card, source) {
+                const rect = card.getBoundingClientRect();
+                const sourceLabel = inboundSourceLabels[source] || source;
+                const stage = document.createElement('div');
+                const stageContent = document.createElement('div');
+                const stageTitle = document.createElement('p');
+                const stageSubTitle = document.createElement('p');
+                const iconWrapper = card.querySelector('.contact-icon')?.cloneNode(true);
+
+                stage.className = 'outbound-stage';
+                stage.style.setProperty('--start-left', `${rect.left}px`);
+                stage.style.setProperty('--start-top', `${rect.top}px`);
+                stage.style.setProperty('--start-width', `${rect.width}px`);
+                stage.style.setProperty('--start-height', `${rect.height}px`);
+                stage.style.setProperty('--stage-background', getComputedStyle(card).backgroundColor);
+
+                stageContent.className = 'outbound-stage-content';
+
+                if (iconWrapper) {
+                    iconWrapper.classList.add('outbound-stage-icon');
+                    stageContent.appendChild(iconWrapper);
+                }
+
+                stageTitle.className = 'outbound-stage-title';
+                stageTitle.textContent = `Go to ${sourceLabel}!!!`;
+
+                stageSubTitle.className = 'outbound-stage-subtitle';
+                stageSubTitle.textContent = `Redirecting to ${sourceLabel}`;
+
+                stageContent.appendChild(stageTitle);
+                stageContent.appendChild(stageSubTitle);
+                stage.appendChild(stageContent);
+
+                return stage;
+            }
+
+            function runOutboundCardTransition(card, source, onComplete) {
+                if (document.body.classList.contains('is-outbound-animating')) {
+                    return;
+                }
+
+                const stage = createOutboundStage(card, source);
+                const totalDurationMs = outboundAnimationTimings.launchDelayMs + outboundAnimationTimings.launchMs;
+
+                document.body.classList.add('is-outbound-animating');
+                document.body.appendChild(stage);
+
+                requestAnimationFrame(() => {
+                    stage.classList.add('is-expanding');
+                });
+
+                window.setTimeout(() => {
+                    stage.classList.add('is-launching');
+                }, outboundAnimationTimings.launchDelayMs);
+
+                window.setTimeout(() => {
+                    onComplete();
+                }, totalDurationMs);
+            }
+
+            contactCards.forEach((card) => {
+                card.addEventListener('click', (event) => {
+                    const isPrimaryActivation =
+                        event.button === undefined || event.button === 0;
+
+                    if (
+                        event.defaultPrevented ||
+                        !isPrimaryActivation ||
+                        event.metaKey ||
+                        event.ctrlKey ||
+                        event.shiftKey ||
+                        event.altKey
+                    ) {
+                        return;
+                    }
+
+                    const source = card.dataset.linkId;
+
+                    if (!animatedOutboundSources.has(source)) {
+                        return;
+                    }
+
+                    const href = card.getAttribute('href');
+
+                    if (!href) {
+                        return;
+                    }
+
+                    event.preventDefault();
+
+                    runOutboundCardTransition(card, source, () => {
+                        window.location.href = href;
+                    });
+                });
+            });
+        }
+
+        function initPage() {
+            setupInboundRoutingAndStats();
+            setupDraggableContacts();
+            setupOutboundCardTransition();
+        }
+
+        initPage();
+    </script>
+
+    <!-- ▼ GoatCounter アクセスカウンター ▼ -->
+    <!-- https://www.goatcounter.com/ でアカウント登録後、koba9813 をサイトコードに変更してください -->
+    <script data-goatcounter="https://koba9813.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    <script>
+        (function () {
+            var p = location.pathname.replace(/\/index\.html$/, '/');
+            fetch('https://koba9813.goatcounter.com/counter/' + encodeURIComponent(p) + '.json')
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                    var el = document.getElementById('gc-count');
+                    if (el) el.textContent = d.count;
+                })
+                .catch(function () {
+                    var el = document.getElementById('gc-count');
+                    if (el) el.textContent = '-';
+                });
+        }());
+    </script>
+</body>
+
+</html>
