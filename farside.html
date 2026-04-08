@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>??? | Haya.win</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .secret-wrap {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .secret-emoji {
+            font-size: 4rem;
+            margin-bottom: 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        .secret-title {
+            font-family: 'Artemis Inter', 'Zen Maru Gothic', sans-serif;
+            font-size: 1.6rem;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+        }
+        .secret-msg {
+            color: #94a3b8;
+            line-height: 2;
+            max-width: 480px;
+            margin: 0 auto 40px;
+        }
+        .secret-back {
+            color: #38bdf8;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .secret-back:hover {
+            color: #7dd3fc;
+        }
+        .secret-timestamp {
+            margin-top: 48px;
+            font-size: 0.8rem;
+            color: #475569;
+            font-family: 'Artemis Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="secret-wrap">
+            <div class="secret-emoji">🌕</div>
+            <h1 class="secret-title">You found the dark side of the Moon.</h1>
+            <p class="secret-msg">
+                おめでとう、ここを見つけたあなたはすごい。<br>
+                とくに何もないけど、たどり着いたこと自体がすごい。<br><br>
+                もし何か伝えたいことがあれば、<br>
+                <a href="mailto:contact@haya.win" class="secret-back">contact@haya.win</a> まで。<br>
+                「月の裏側から来ました」って書いてくれたらうれしいです。
+            </p>
+            <a href="index.html" class="secret-back">← 表の世界に戻る</a>
+            <p class="secret-timestamp">This page has existed since 2026-04-08.</p>
+        </div>
+    </div>
+
+    <script src="transitions.js" defer></script>
+</body>
+
+</html>

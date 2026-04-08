@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'Artemis Inter';
+    src: url('fonts/Artemis_Inter.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 *,
 *::before,
 *::after {
@@ -8,6 +16,9 @@
 
 body {
     background-color: #0f172a;
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
     color: #f8fafc;
     font-family: 'Zen Maru Gothic', sans-serif;
     line-height: 1.7;
@@ -39,6 +50,7 @@ a {
 .logo a {
     font-size: 1.5rem;
     font-weight: 700;
+    font-family: 'Artemis Inter', 'Zen Maru Gothic', sans-serif;
     letter-spacing: 0.05em;
     transition: opacity 0.2s ease;
 }
@@ -54,6 +66,7 @@ a {
 
 .nav a {
     font-size: 0.9rem;
+    font-family: 'Artemis Inter', 'Zen Maru Gothic', sans-serif;
     color: #94a3b8;
     transition: color 0.2s ease;
 }
@@ -75,6 +88,7 @@ a {
 .section-title {
     font-size: 1.25rem;
     font-weight: 700;
+    font-family: 'Artemis Inter', 'Zen Maru Gothic', sans-serif;
     margin-bottom: 30px;
     color: #94a3b8;
     text-transform: uppercase;
@@ -85,7 +99,14 @@ a {
     text-align: center;
     margin-top: 100px;
     color: #64748b;
-    font-size: 0.85rem;
+    font-size: 1rem;
+}
+
+.footer-image-credit {
+    margin-top: 6px;
+    font-family: 'Artemis Inter', sans-serif;
+    font-size: 0.95rem;
+    color: #475569;
 }
 
 /* Memo styles */
@@ -97,7 +118,7 @@ a {
 
 .memo-card {
     display: block;
-    background-color: #1e293b;
+    background-color: rgba(30, 41, 59, 0.75);
     padding: 24px;
     border-radius: 12px;
     transition: transform 0.2s ease, background-color 0.2s ease;
@@ -118,7 +139,7 @@ a {
 
 .memo-card:hover {
     transform: translateY(-2px);
-    background-color: #334155;
+    background-color: rgba(51, 65, 85, 0.82);
 }
 
 .memo-card:hover::before {
