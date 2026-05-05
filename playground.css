@@ -1,0 +1,737 @@
+/* ═══════════════════════════════════════════════════════
+   Playground — Dynamic Design Showcase
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Scroll progress bar (top of viewport) ──────────── */
+.pg-scroll-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #38bdf8, #a78bfa, #f472b6, #fb923c);
+    z-index: 9999;
+    transition: width 0.06s linear;
+    border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+}
+
+/* ── Container override ─────────────────────────────── */
+.pg-container {
+    max-width: 780px;
+}
+
+/* ── Hero ────────────────────────────────────────────── */
+.pg-hero {
+    text-align: center;
+    padding: 100px 0 80px;
+    position: relative;
+}
+
+.pg-hero-kicker {
+    font-size: 0.78rem;
+    color: #7dd3fc;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: pg-fade-up 0.8s 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.pg-hero-title {
+    font-size: clamp(2.8rem, 8vw, 5rem);
+    font-weight: 700;
+    font-family: 'Artemis Inter', 'Zen Maru Gothic', sans-serif;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #f8fafc 0%, #38bdf8 40%, #a78bfa 70%, #f472b6 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: pg-gradient-shift 6s ease infinite, pg-fade-up 0.8s 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    opacity: 0;
+}
+
+.pg-hero-sub {
+    margin-top: 20px;
+    font-size: 1.05rem;
+    color: #94a3b8;
+    opacity: 0;
+    animation: pg-fade-up 0.8s 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.pg-hero-arrow {
+    margin-top: 48px;
+    color: #475569;
+    animation: pg-bounce-down 2s ease-in-out infinite, pg-fade-up 0.8s 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    opacity: 0;
+}
+
+@keyframes pg-fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pg-gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+}
+
+@keyframes pg-bounce-down {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(10px); }
+}
+
+/* ── Section reveal (scroll-driven) ─────────────────── */
+.pg-section {
+    margin-bottom: 0;
+}
+
+[data-pg-reveal] {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-pg-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.pg-desc {
+    color: #94a3b8;
+    margin-bottom: 28px;
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+/* ── 1. Morphing Blob ───────────────────────────────── */
+.pg-blob-stage {
+    position: relative;
+    height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 24px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.pg-blob {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 42% 58% 62% 38% / 46% 52% 48% 54%;
+    background: linear-gradient(135deg, #38bdf8, #a78bfa);
+    filter: blur(1px);
+    opacity: 0.85;
+    animation: pg-blob-morph 8s ease-in-out infinite alternate;
+    will-change: border-radius, transform;
+    transition: filter 0.3s ease;
+}
+
+.pg-blob--alt {
+    width: 160px;
+    height: 160px;
+    background: linear-gradient(225deg, #f472b6, #fb923c);
+    animation-delay: -4s;
+    animation-name: pg-blob-morph-alt;
+    opacity: 0.65;
+    filter: blur(28px);
+}
+
+@keyframes pg-blob-morph {
+    0%   { border-radius: 42% 58% 62% 38% / 46% 52% 48% 54%; transform: translate(0, 0) scale(1) rotate(0deg); }
+    25%  { border-radius: 55% 45% 38% 62% / 60% 40% 60% 40%; transform: translate(30px, -20px) scale(1.08) rotate(45deg); }
+    50%  { border-radius: 38% 62% 52% 48% / 42% 58% 42% 58%; transform: translate(-20px, 15px) scale(0.95) rotate(90deg); }
+    75%  { border-radius: 62% 38% 45% 55% / 55% 45% 55% 45%; transform: translate(15px, 25px) scale(1.12) rotate(135deg); }
+    100% { border-radius: 48% 52% 58% 42% / 38% 62% 46% 54%; transform: translate(-10px, -10px) scale(1.02) rotate(180deg); }
+}
+
+@keyframes pg-blob-morph-alt {
+    0%   { border-radius: 52% 48% 45% 55% / 58% 42% 55% 45%; transform: translate(10px, 10px) scale(1) rotate(0deg); }
+    25%  { border-radius: 45% 55% 62% 38% / 40% 60% 42% 58%; transform: translate(-25px, 20px) scale(1.1) rotate(-30deg); }
+    50%  { border-radius: 62% 38% 42% 58% / 52% 48% 60% 40%; transform: translate(20px, -15px) scale(0.92) rotate(-60deg); }
+    75%  { border-radius: 38% 62% 55% 45% / 48% 52% 38% 62%; transform: translate(-10px, -25px) scale(1.06) rotate(-90deg); }
+    100% { border-radius: 55% 45% 48% 52% / 62% 38% 52% 48%; transform: translate(5px, 5px) scale(0.98) rotate(-120deg); }
+}
+
+/* ── 2. Parallax Cards ──────────────────────────────── */
+.pg-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+@media (max-width: 500px) {
+    .pg-cards { grid-template-columns: 1fr; }
+}
+
+.pg-card {
+    position: relative;
+    overflow: hidden;
+    padding: 36px 28px;
+    border-radius: 20px;
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    cursor: default;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+}
+
+.pg-card:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 0 20px 40px rgba(2, 6, 23, 0.4);
+}
+
+.pg-card-glow {
+    position: absolute;
+    top: -40%;
+    right: -30%;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: var(--card-accent);
+    opacity: 0.12;
+    filter: blur(50px);
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.pg-card:hover .pg-card-glow {
+    opacity: 0.22;
+}
+
+.pg-card-num {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    font-family: 'Artemis Inter', 'Zen Maru Gothic', sans-serif;
+    color: var(--card-accent);
+    line-height: 1;
+    margin-bottom: 8px;
+    opacity: 0.35;
+}
+
+.pg-card-label {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #e2e8f0;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+/* ── 3. Wave Text ───────────────────────────────────── */
+.pg-wave-text {
+    font-size: clamp(2rem, 6vw, 3.6rem);
+    font-weight: 700;
+    font-family: 'Artemis Inter', 'Zen Maru Gothic', sans-serif;
+    text-align: center;
+    padding: 48px 0;
+    line-height: 1.3;
+    overflow: hidden;
+    min-height: 160px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+}
+
+.pg-wave-char {
+    display: inline-block;
+    transition: transform 0.15s ease-out, color 0.3s ease;
+    will-change: transform;
+    color: #e2e8f0;
+}
+
+.pg-wave-char.is-space {
+    width: 0.3em;
+}
+
+/* ── 4. Particle Ring ───────────────────────────────── */
+.pg-ring-stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+#pg-ring-canvas {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+/* ── 5. Progress Bars ───────────────────────────────── */
+.pg-bars {
+    display: grid;
+    gap: 22px;
+}
+
+.pg-bar-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    align-items: center;
+    gap: 16px;
+}
+
+@media (max-width: 500px) {
+    .pg-bar-row {
+        grid-template-columns: 80px 1fr;
+        gap: 10px;
+    }
+}
+
+.pg-bar-label {
+    font-size: 0.88rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'Artemis Inter', 'Zen Maru Gothic', sans-serif;
+}
+
+.pg-bar-track {
+    height: 10px;
+    border-radius: 8px;
+    background: rgba(30, 41, 59, 0.7);
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.pg-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 8px;
+    background: var(--bar-color);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--bar-color) 40%, transparent);
+    transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+}
+
+.pg-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: pg-bar-shimmer 2s ease-in-out infinite;
+}
+
+@keyframes pg-bar-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ── 6. Magnetic Grid ───────────────────────────────── */
+.pg-magnet-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 8px;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+@media (max-width: 500px) {
+    .pg-magnet-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+.pg-magnet-tile {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.08);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                background 0.3s ease,
+                box-shadow 0.3s ease;
+    cursor: default;
+    will-change: transform;
+}
+
+.pg-magnet-tile:hover {
+    background: rgba(56, 189, 248, 0.25);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+}
+
+/* ── 7. Noise Gradient ──────────────────────────────── */
+.pg-noise-stage {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+#pg-noise-canvas {
+    display: block;
+    width: 100%;
+    height: 260px;
+    border-radius: 20px;
+}
+
+/* ── 8. Stagger Reveal ──────────────────────────────── */
+.pg-stagger-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 500px) {
+    .pg-stagger-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.pg-stagger-item {
+    padding: 28px 20px;
+    border-radius: 18px;
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px) scale(0.92);
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.3s ease;
+}
+
+.pg-stagger-item.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.pg-stagger-item:hover {
+    box-shadow: 0 0 24px color-mix(in srgb, var(--stagger-accent) 20%, transparent);
+}
+
+.pg-stagger-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--stagger-accent);
+    animation: pg-float 3s ease-in-out infinite;
+}
+
+.pg-stagger-item:nth-child(2) .pg-stagger-icon { animation-delay: -0.5s; }
+.pg-stagger-item:nth-child(3) .pg-stagger-icon { animation-delay: -1s; }
+.pg-stagger-item:nth-child(4) .pg-stagger-icon { animation-delay: -1.5s; }
+.pg-stagger-item:nth-child(5) .pg-stagger-icon { animation-delay: -2s; }
+.pg-stagger-item:nth-child(6) .pg-stagger-icon { animation-delay: -2.5s; }
+
+.pg-stagger-item p {
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+@keyframes pg-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+}
+
+/* ── 9. Orbital Text ────────────────────────────────── */
+.pg-orbital-stage {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pg-orbital-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.1s linear;
+    will-change: transform;
+}
+
+.pg-orbital-char {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform-origin: 0 140px;
+    font-size: 0.92rem;
+    font-family: 'Artemis Inter', 'Zen Maru Gothic', sans-serif;
+    color: #94a3b8;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.pg-orbital-core {
+    font-size: 2.2rem;
+    font-weight: 700;
+    font-family: 'Artemis Inter', 'Zen Maru Gothic', sans-serif;
+    color: #38bdf8;
+    z-index: 1;
+    text-shadow: 0 0 30px rgba(56, 189, 248, 0.4);
+}
+
+/* ── 10. Liquid Counter ─────────────────────────────── */
+.pg-counters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 500px) {
+    .pg-counters { grid-template-columns: 1fr; }
+}
+
+.pg-counter-card {
+    position: relative;
+    overflow: hidden;
+    padding: 36px 20px;
+    border-radius: 20px;
+    background: rgba(30, 41, 59, 0.65);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    text-align: center;
+}
+
+.pg-counter-liquid {
+    position: absolute;
+    bottom: -60%;
+    left: -20%;
+    width: 140%;
+    height: 100%;
+    border-radius: 42% 58% 52% 48% / 46% 54% 46% 54%;
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(167, 139, 250, 0.12));
+    animation: pg-liquid-wave 5s ease-in-out infinite;
+    pointer-events: none;
+    transition: bottom 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pg-counter-card.is-counting .pg-counter-liquid {
+    bottom: -10%;
+}
+
+@keyframes pg-liquid-wave {
+    0%, 100% { transform: rotate(0deg) translateX(0); border-radius: 42% 58% 52% 48% / 46% 54% 46% 54%; }
+    33%      { transform: rotate(3deg) translateX(8px); border-radius: 55% 45% 38% 62% / 52% 48% 55% 45%; }
+    66%      { transform: rotate(-2deg) translateX(-6px); border-radius: 38% 62% 55% 45% / 48% 52% 42% 58%; }
+}
+
+.pg-counter-num {
+    display: block;
+    font-size: 2.8rem;
+    font-weight: 700;
+    font-family: 'Artemis Inter', 'Zen Maru Gothic', sans-serif;
+    color: #f8fafc;
+    position: relative;
+    z-index: 1;
+    line-height: 1.2;
+}
+
+.pg-counter-label {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.82rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    position: relative;
+    z-index: 1;
+}
+
+/* ── 11. Aurora Borealis ────────────────────────────── */
+.pg-aurora-stage {
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+#pg-aurora-canvas {
+    display: block;
+    width: 100%;
+    height: 320px;
+    border-radius: 24px;
+}
+
+/* ── 12. DNA Helix ──────────────────────────────────── */
+.pg-dna-stage {
+    display: flex;
+    justify-content: center;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    background: rgba(15, 23, 42, 0.5);
+}
+
+#pg-dna-canvas {
+    display: block;
+    width: 100%;
+    height: 360px;
+}
+
+/* ── 13. Pendulum Wave ──────────────────────────────── */
+.pg-pendulum-stage {
+    display: flex;
+    justify-content: center;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    background: rgba(15, 23, 42, 0.5);
+}
+
+#pg-pendulum-canvas {
+    display: block;
+    width: 100%;
+    height: 340px;
+}
+
+/* ── 14. Breathing Circles ──────────────────────────── */
+.pg-breathing-stage {
+    position: relative;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.pg-breathing-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(56, 189, 248, 0.3);
+    width: 40px;
+    height: 40px;
+    transition: width 0.4s ease-out, height 0.4s ease-out, border-color 0.4s ease;
+    will-change: width, height;
+}
+
+/* ── 15. Ripple Pool ────────────────────────────────── */
+.pg-ripple-stage {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    cursor: pointer;
+}
+
+#pg-ripple-canvas {
+    display: block;
+    width: 100%;
+    height: 320px;
+    background: rgba(15, 23, 42, 0.6);
+}
+
+.pg-ripple-hint {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.82rem;
+    color: #475569;
+    letter-spacing: 0.08em;
+    pointer-events: none;
+    animation: pg-float 2.5s ease-in-out infinite;
+}
+
+/* ── 16. Spiral Galaxy ──────────────────────────────── */
+.pg-galaxy-stage {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+#pg-galaxy-canvas {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 1));
+    border: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+/* ── 17. Fluid Fill Text ────────────────────────────── */
+.pg-fluid-text-stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.pg-fluid-text {
+    position: relative;
+    font-size: clamp(3rem, 12vw, 7rem);
+    font-weight: 700;
+    font-family: 'Artemis Inter', 'Zen Maru Gothic', sans-serif;
+    letter-spacing: 0.06em;
+    line-height: 1;
+}
+
+.pg-fluid-text-back {
+    color: rgba(148, 163, 184, 0.12);
+}
+
+.pg-fluid-text-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    height: 0%;
+    background: linear-gradient(180deg, #38bdf8, #a78bfa, #f472b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: height 0.15s ease-out;
+    white-space: nowrap;
+    /* Invert: fill from bottom */
+    display: flex;
+    align-items: flex-end;
+}
+
+/* ── 18. Pulse Rings ────────────────────────────────── */
+.pg-pulse-stage {
+    display: flex;
+    justify-content: center;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    background: rgba(15, 23, 42, 0.5);
+}
+
+#pg-pulse-canvas {
+    display: block;
+    width: 100%;
+    height: 400px;
+}
+
+/* ── 19. Gravity Rain ───────────────────────────────── */
+.pg-gravity-stage {
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    background: rgba(15, 23, 42, 0.5);
+}
+
+#pg-gravity-canvas {
+    display: block;
+    width: 100%;
+    height: 360px;
+}
+
+/* ── 20. Kaleidoscope ───────────────────────────────── */
+.pg-kaleidoscope-stage {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+#pg-kaleidoscope-canvas {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    border: 1px solid rgba(148, 163, 184, 0.08);
+}

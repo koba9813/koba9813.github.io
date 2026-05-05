@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P02V90GSSC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-P02V90GSSC');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playground | Haya.win</title>
+    <meta name="description" content="CSS・JavaScriptの動的デザインを集めたビジュアル実験場。スクロールして楽しむインタラクティブなページです。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="playground.css">
+</head>
+
+<body>
+    <div class="container pg-container">
+        <header class="header">
+            <h1 class="logo"><a href="index.html">Welcome to Haya.win!</a></h1>
+            <nav class="nav">
+                <a href="index.html">Top</a>
+                <a href="now.html">Now</a>
+                <a href="memo.html">Memo</a>
+                <a href="colophon.html">Colophon</a>
+                <a href="links.html">Links</a>
+            </nav>
+        </header>
+
+        <main>
+            <!-- ── Hero ── -->
+            <section class="section pg-hero" id="pg-hero">
+                <p class="pg-hero-kicker">Visual Experiments</p>
+                <h2 class="pg-hero-title">Playground</h2>
+                <p class="pg-hero-sub">スクロールして、動きを楽しんでください</p>
+                <div class="pg-hero-arrow" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+            </section>
+
+            <!-- ── 1. Morphing Blob ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Morphing Blob</h2>
+                <p class="pg-desc">有機的に形を変え続けるグラデーションブロブ。スクロールで色相が回転します。</p>
+                <div class="pg-blob-stage" id="pg-blob-stage">
+                    <div class="pg-blob" id="pg-blob"></div>
+                    <div class="pg-blob pg-blob--alt" id="pg-blob-alt"></div>
+                </div>
+            </section>
+
+            <!-- ── 2. Parallax Cards ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Parallax Cards</h2>
+                <p class="pg-desc">各カードが異なる速度でスライドイン。マウスを乗せると奥行きが変わります。</p>
+                <div class="pg-cards">
+                    <div class="pg-card" data-pg-parallax data-speed="0.12" style="--card-accent: #38bdf8;">
+                        <div class="pg-card-glow"></div>
+                        <span class="pg-card-num">01</span>
+                        <p class="pg-card-label">Velocity</p>
+                    </div>
+                    <div class="pg-card" data-pg-parallax data-speed="0.08" style="--card-accent: #a78bfa;">
+                        <div class="pg-card-glow"></div>
+                        <span class="pg-card-num">02</span>
+                        <p class="pg-card-label">Gravity</p>
+                    </div>
+                    <div class="pg-card" data-pg-parallax data-speed="0.18" style="--card-accent: #34d399;">
+                        <div class="pg-card-glow"></div>
+                        <span class="pg-card-num">03</span>
+                        <p class="pg-card-label">Orbit</p>
+                    </div>
+                    <div class="pg-card" data-pg-parallax data-speed="0.06" style="--card-accent: #fb923c;">
+                        <div class="pg-card-glow"></div>
+                        <span class="pg-card-num">04</span>
+                        <p class="pg-card-label">Entropy</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── 3. Wave Text ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Wave Typography</h2>
+                <p class="pg-desc">文字が波打つように一文字ずつアニメーション。スクロールで波の位相が変わります。</p>
+                <div class="pg-wave-text" id="pg-wave-text" aria-label="Hello World from Haya.win">
+                    <!-- JS fills individual spans -->
+                </div>
+            </section>
+
+            <!-- ── 4. Particle Ring ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Particle Ring</h2>
+                <p class="pg-desc">100個のパーティクルがリング状に並び、スクロールで回転・拡縮します。</p>
+                <div class="pg-ring-stage" id="pg-ring-stage">
+                    <canvas id="pg-ring-canvas" width="500" height="500"></canvas>
+                </div>
+            </section>
+
+            <!-- ── 5. Progress Bars ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Scroll Progress</h2>
+                <p class="pg-desc">スクロールに連動してバーが伸びるプログレスインジケーター。</p>
+                <div class="pg-bars">
+                    <div class="pg-bar-row">
+                        <span class="pg-bar-label">CSS</span>
+                        <div class="pg-bar-track"><div class="pg-bar-fill" data-pg-bar data-max="92" style="--bar-color: #38bdf8;"></div></div>
+                    </div>
+                    <div class="pg-bar-row">
+                        <span class="pg-bar-label">JavaScript</span>
+                        <div class="pg-bar-track"><div class="pg-bar-fill" data-pg-bar data-max="87" style="--bar-color: #facc15;"></div></div>
+                    </div>
+                    <div class="pg-bar-row">
+                        <span class="pg-bar-label">Animation</span>
+                        <div class="pg-bar-track"><div class="pg-bar-fill" data-pg-bar data-max="78" style="--bar-color: #a78bfa;"></div></div>
+                    </div>
+                    <div class="pg-bar-row">
+                        <span class="pg-bar-label">Creativity</span>
+                        <div class="pg-bar-track"><div class="pg-bar-fill" data-pg-bar data-max="100" style="--bar-color: #34d399;"></div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── 6. Magnetic Grid ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Magnetic Grid</h2>
+                <p class="pg-desc">マウスに反応してタイルが磁石のように引き寄せられます。</p>
+                <div class="pg-magnet-grid" id="pg-magnet-grid">
+                    <!-- JS fills tiles -->
+                </div>
+            </section>
+
+            <!-- ── 7. Noise Gradient ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Noise Gradient</h2>
+                <p class="pg-desc">スクロール量に応じてノイズパターンのグラデーションが変化します。</p>
+                <div class="pg-noise-stage">
+                    <canvas id="pg-noise-canvas" width="780" height="260"></canvas>
+                </div>
+            </section>
+
+            <!-- ── 8. Stagger Reveal ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Stagger Reveal</h2>
+                <p class="pg-desc">スクロールで要素がひとつずつ順番に現れるカスケードアニメーション。</p>
+                <div class="pg-stagger-grid" id="pg-stagger-grid">
+                    <div class="pg-stagger-item" data-pg-stagger style="--stagger-accent:#38bdf8;">
+                        <div class="pg-stagger-icon">✦</div><p>Starlight</p>
+                    </div>
+                    <div class="pg-stagger-item" data-pg-stagger style="--stagger-accent:#a78bfa;">
+                        <div class="pg-stagger-icon">◆</div><p>Crystal</p>
+                    </div>
+                    <div class="pg-stagger-item" data-pg-stagger style="--stagger-accent:#34d399;">
+                        <div class="pg-stagger-icon">●</div><p>Sphere</p>
+                    </div>
+                    <div class="pg-stagger-item" data-pg-stagger style="--stagger-accent:#fb923c;">
+                        <div class="pg-stagger-icon">▲</div><p>Prism</p>
+                    </div>
+                    <div class="pg-stagger-item" data-pg-stagger style="--stagger-accent:#f472b6;">
+                        <div class="pg-stagger-icon">♦</div><p>Aurora</p>
+                    </div>
+                    <div class="pg-stagger-item" data-pg-stagger style="--stagger-accent:#facc15;">
+                        <div class="pg-stagger-icon">★</div><p>Nova</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── 9. Scroll Rotation Ring ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Orbital Text</h2>
+                <p class="pg-desc">テキストが円形に配置され、スクロールに応じて回転します。</p>
+                <div class="pg-orbital-stage" id="pg-orbital-stage">
+                    <div class="pg-orbital-ring" id="pg-orbital-ring">
+                        <!-- JS fills characters -->
+                    </div>
+                    <div class="pg-orbital-core">CSS</div>
+                </div>
+            </section>
+
+            <!-- ── 10. Liquid Counter ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Liquid Counter</h2>
+                <p class="pg-desc">スクロールすると数字がカウントアップ。液体のように動くハイライト付き。</p>
+                <div class="pg-counters" id="pg-counters">
+                    <div class="pg-counter-card">
+                        <div class="pg-counter-liquid"></div>
+                        <span class="pg-counter-num" data-pg-count data-target="1440">0</span>
+                        <span class="pg-counter-label">Lines of CSS</span>
+                    </div>
+                    <div class="pg-counter-card">
+                        <div class="pg-counter-liquid"></div>
+                        <span class="pg-counter-num" data-pg-count data-target="60">0</span>
+                        <span class="pg-counter-label">FPS Target</span>
+                    </div>
+                    <div class="pg-counter-card">
+                        <div class="pg-counter-liquid"></div>
+                        <span class="pg-counter-num" data-pg-count data-target="20">0</span>
+                        <span class="pg-counter-label">Demos</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── 11. Aurora Borealis ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Aurora Borealis</h2>
+                <p class="pg-desc">オーロラのようなカーテン状の光が揺らめきます。スクロールで光の色が移り変わります。</p>
+                <div class="pg-aurora-stage" id="pg-aurora-stage">
+                    <canvas id="pg-aurora-canvas" width="780" height="320"></canvas>
+                </div>
+            </section>
+
+            <!-- ── 12. DNA Helix ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">DNA Helix</h2>
+                <p class="pg-desc">二重らせんがスクロールに合わせて回転。生命の設計図を描きます。</p>
+                <div class="pg-dna-stage" id="pg-dna-stage">
+                    <canvas id="pg-dna-canvas" width="780" height="360"></canvas>
+                </div>
+            </section>
+
+            <!-- ── 13. Pendulum Wave ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Pendulum Wave</h2>
+                <p class="pg-desc">異なる周期で揺れる振り子が波のパターンを作り出します。</p>
+                <div class="pg-pendulum-stage" id="pg-pendulum-stage">
+                    <canvas id="pg-pendulum-canvas" width="780" height="340"></canvas>
+                </div>
+            </section>
+
+            <!-- ── 14. Breathing Circles ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Breathing Circles</h2>
+                <p class="pg-desc">同心円が呼吸するように拡大・縮小を繰り返します。スクロールでリズムが変化。</p>
+                <div class="pg-breathing-stage" id="pg-breathing-stage">
+                    <div class="pg-breathing-ring" style="--ring-i:0;"></div>
+                    <div class="pg-breathing-ring" style="--ring-i:1;"></div>
+                    <div class="pg-breathing-ring" style="--ring-i:2;"></div>
+                    <div class="pg-breathing-ring" style="--ring-i:3;"></div>
+                    <div class="pg-breathing-ring" style="--ring-i:4;"></div>
+                    <div class="pg-breathing-ring" style="--ring-i:5;"></div>
+                    <div class="pg-breathing-ring" style="--ring-i:6;"></div>
+                </div>
+            </section>
+
+            <!-- ── 15. Ripple Pool ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Ripple Pool</h2>
+                <p class="pg-desc">クリック（タップ）した場所から波紋が広がります。水面に触れるように。</p>
+                <div class="pg-ripple-stage" id="pg-ripple-stage">
+                    <canvas id="pg-ripple-canvas" width="780" height="320"></canvas>
+                    <p class="pg-ripple-hint">タップしてみてね</p>
+                </div>
+            </section>
+
+            <!-- ── 16. Spiral Galaxy ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Spiral Galaxy</h2>
+                <p class="pg-desc">300個の星が渦巻銀河を形成。スクロールで回転速度と拡がりが変わります。</p>
+                <div class="pg-galaxy-stage" id="pg-galaxy-stage">
+                    <canvas id="pg-galaxy-canvas" width="600" height="600"></canvas>
+                </div>
+            </section>
+
+            <!-- ── 17. Fluid Fill Text ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Fluid Fill Text</h2>
+                <p class="pg-desc">スクロールに応じて文字の中を液体が満たしていきます。</p>
+                <div class="pg-fluid-text-stage" id="pg-fluid-text-stage">
+                    <div class="pg-fluid-text" id="pg-fluid-text">
+                        <span class="pg-fluid-text-back">FLUID</span>
+                        <span class="pg-fluid-text-fill" id="pg-fluid-fill">FLUID</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── 18. Pulse Rings ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Pulse Rings</h2>
+                <p class="pg-desc">中心から波動のように広がるリング。スクロールでパルスの周波数が変化します。</p>
+                <div class="pg-pulse-stage" id="pg-pulse-stage">
+                    <canvas id="pg-pulse-canvas" width="600" height="400"></canvas>
+                </div>
+            </section>
+
+            <!-- ── 19. Gravity Rain ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Gravity Rain</h2>
+                <p class="pg-desc">粒子が重力に引かれ落下し、床で跳ね返ります。スクロールで重力の方向が変わります。</p>
+                <div class="pg-gravity-stage" id="pg-gravity-stage">
+                    <canvas id="pg-gravity-canvas" width="780" height="360"></canvas>
+                </div>
+            </section>
+
+            <!-- ── 20. Kaleidoscope ── -->
+            <section class="section pg-section" data-pg-reveal>
+                <h2 class="section-title">Kaleidoscope</h2>
+                <p class="pg-desc">万華鏡のように対称パターンが回転し、スクロールで模様が変化します。</p>
+                <div class="pg-kaleidoscope-stage" id="pg-kaleidoscope-stage">
+                    <canvas id="pg-kaleidoscope-canvas" width="500" height="500"></canvas>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p class="footer-image-credit">Image: <a href="https://www.nasa.gov" target="_blank" rel="noopener noreferrer">NASA</a> / <a href="https://www.nasa.gov/artemis-ii-multimedia/" target="_blank" rel="noopener noreferrer">Artemis Program</a></p>
+            <p>&copy; 2026 Koba_9813</p>
+        </footer>
+    </div>
+
+    <!-- Global scroll-progress indicator -->
+    <div class="pg-scroll-indicator" id="pg-scroll-indicator"></div>
+
+    <script src="transitions.js" defer></script>
+    <script src="playground.js" defer></script>
+    <script src="playground2.js" defer></script>
+</body>
+
+</html>
